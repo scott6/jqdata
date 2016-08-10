@@ -1,4 +1,4 @@
-
+/*! jQData v1.0 | (c) 2015, 2016 Ary Pambudi W | MIT license */
 (function($){
 	$.fn.jqdata = function(options){
 		var cfg = $.extend({
