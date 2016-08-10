@@ -1,5 +1,5 @@
 # jqdata
-Automatic databinding from JSON to HTML Element or vice versa. This will automatic detect whether target element is input textbox, select, radio button, or just ordinary html container, & then sets it's value.   
+Automatic jQuery databinding from JSON to HTML Element or vice versa. This will automatic detect whether target element is input textbox, select, radio button, or just ordinary html container, & then sets it's value.   
 
 # How to Use
 Link both jquery & jqdata library (I'll use jquery-1.11.0.min.js for example)
