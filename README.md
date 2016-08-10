@@ -57,4 +57,49 @@ Call jqdata on document ready :
   });
 ```
 
+# Options
 
+| Key                        | Description                                         | Default       |
+|----------------------------|-----------------------------------------------------|---------------|
+| dataAttr | Define attribute name used in each element. if set to 'jq', then the attribute shuld be data-jq | jqdata |
+| json | JSON data will be used as data source | null |
+| beforeBind | Triggered before data binding occured | function(){} |
+| afterBind | Triggered after data bound | function(){} |
+| dataChanged | triggered after data has been changed | function(){} |
+
+# Element Attributes
+
+> Notes : these attributes will only works with dataAttr option set to 'jqdata'
+
+| Attribute | Description |
+|----|----|
+| data-jqdata | JSON node tree separated by dot. ex, to access json1['data']['obj1'], the value will be "data.obj1" |
+| data-jqdata-bindevent | Event name will be triggered to change data source value based on element value. ex, to change value onblur & onkeyup in a textbox, the value will be "blur keyup" |
+| data-jqdata-format | Data formatting. use token {value} to replace the value. See index.htm for details. |
+| data-jqdata-databind | Javascript function triggered after databind occured |
+
+
+# Data Array Handling
+
+Use javascript function passed in data-jqdata-databind attribute to handle array data
+```javascript
+function generateList(obj,val) { // full parameter : current object, array value, json (source data), key (from data-jqdata attribute)
+	obj.empty();
+	for (var i in val) {
+		obj.append('<li>['+i+'] : '+val[i].col1+' | '+val[i].col2+'<span data-jqdata="data.obj2.obj21"></span></li>');
+	}
+}
+```
+Alternatively, you can use html as a template for array data by using {n} token. For example, the following html template can be used to populate data in json1['dataArray'].
+```html
+<ul data-jqdata="dataArray" >
+	<li data-jqdata="dataArray.{n}">
+		<span data-jqdata="dataArray.{n}.col1" data-jqdata-format="{value} : "></span> <span data-jqdata="dataArray.{n}.col2"></span>
+		<ul >
+			<li data-jqdata="dataArray.{n}.col3.{n}">
+				<span data-jqdata="dataArray.{n}.col3.{n}.d1"></span>
+			</li>
+		</ul>
+	</li>
+</ul>
+```
