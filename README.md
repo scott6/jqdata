@@ -1,15 +1,15 @@
 # jqdata
 Automatic databinding from JSON to HTML Element or vice versa. This will automatic detect whether target element is input textbox, select, radio button, or just ordinary html container, & then sets it's value.   
 
-<h1>How to Use</h1>
+# How to Use
 Link both jquery & jqdata library (I'll use jquery-1.11.0.min.js for example)
-<pre>
-    &lt;script type="text/javascript" src="js/jquery-1.11.0.min.js">&lt;/script>
-    &lt;script type="text/javascript" src="js/jquery.jqdata.1.0.js">&lt;/script>
-</pre>
+```html
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.jqdata.1.0.js"></script>
+```
 
 Prepare your JSON data (you can get this from $.get or $.post method for server request) :
-<pre>
+```javascript
 	var json1 = {'data':
 	              {'obj1': 'data obj1',
 	               'obj2': { 'obj21':'data obj21',
@@ -33,28 +33,28 @@ Prepare your JSON data (you can get this from $.get or $.post method for server 
 	                                        {'d1':'val23'}]
 	                             }]
 	               };
-</pre>
+```
 
 Prepare your HTML :
+<br/>
 add attribute "data-jqdata" on each element and set it with a json node separated by dot
-<pre>
-  &lt;div id="root" >
-  	  &lt;input type="text"  data-jqdata="data.obj2.obj21" /> &lt;!-- value : "data obj21"  -->
-      &lt;select data-jqdata="data2"> 
-      	&lt;option value="0">- Select -&lt;/option>
-      	&lt;option value="1">Test1&lt;/option>
-      	&lt;option value="2">Test2&lt;/option> &lt;!-- this option will be selected  -->
-      &lt;/select>
-  &lt;/div>    
-
-</pre>
+```html
+  <div id="root" >
+      <input type="text"  data-jqdata="data.obj2.obj21" /> <!-- value : "data obj21"  -->
+      <select data-jqdata="data2"> 
+      	<option value="0">- Select -</option>
+      	<option value="1">Test1</option>
+      	<option value="2">Test2</option> <!-- this option will be selected  -->
+      </select>
+  </div>    
+```
 
 Call jqdata on document ready :
-<pre>
+```javascript
   var objData;
   $(function(){
 	objData = $('#root').jqdata({'json':json1});
   });
-</pre>
+```
 
 
