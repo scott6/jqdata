@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.jqdata.1.0.js"></script>
+	<!-- Page Title -->
+    <title>Demo Page</title>
+	<script type="text/javascript">
+	var json1 = {'data':{'obj1':'data obj1','obj2':{'obj21':'data obj21','obj22':'data obj22','obj23':'2','obj24':3000}},'data2':2,'dataArray':[{'col1':'data11','col2':'data12','col3':[{'d1':'val1'},{'d1':'val2'}]},{'col1':'data21','col2':'data22','col3':null},{'col1':'data31','col2':'data32','col3':[{'d1':'val21'},{'d1':'val22'},{'d1':'val23'}]}]};
+	var objData;
+	$(function(){
+		objData = $('#root').jqdata({'json':json1});
+	});
+
+	function generateList(obj,val) { // parameter : obj,val,json,key
+		obj.empty();
+		for (var i in val) {
+			obj.append('<li>['+i+'] : '+val[i].col1+' | '+val[i].col2+'<span data-jqdata="data.obj2.obj21"></span></li>');
+		}
+	}
+	</script>
+</head>
+<body>
+	<h1>JqData Demo</h1>
+	<div id="root" >
+	<h2>Common Scenario</h2>
+	<div class="content" data-jqdata="data">
+		<div>
+			<div>Update source data onblur :</div>
+			<input type="text"  data-jqdata="data.obj2.obj21" data-jqdata-bindevent="blur" />
+			<br/>
+			<div>Update source data onblur & onkeyup + formatting:</div>
+			<input type="text" id="txt01" data-jqdata="data.obj2.obj24" data-jqdata-bindevent="keyup blur" data-jqdata-format="Rp\.{value},00" />
+			<br/>
+		</div>
+	</div>
+	<div>Update source data onchange :</div>
+	<select data-jqdata="data2" data-jqdata-bindevent="change">
+		<option value="0">- Select -</option>
+		<option value="1">Test1</option>
+		<option value="2">Test2</option>
+	</select>
+	<br/>
+	<div>Update source data onclick :</div>
+	<input type="radio" name="tesradio" value="1" data-jqdata="data.obj2.obj23" data-jqdata-bindevent="click" /> val 1
+	<input type="radio" name="tesradio" value="2" data-jqdata="data.obj2.obj23" data-jqdata-bindevent="click" /> val 2
+	<div>Update source data result :</div>
+	<div><span>Data from textbox : </span><span data-jqdata="data.obj2.obj21"></span></div>
+	<div><span>Data from select : </span><span data-jqdata="data2"></span></div>
+	<h2>Using Function Handler</h2>
+	<ul data-jqdata="dataArray" data-jqdata-databind="generateList">
+	</ul>
+	<h2>Using HTML Template</h2>
+	<ul data-jqdata="dataArray" >
+		<li data-jqdata="dataArray.{n}">
+			<span data-jqdata="dataArray.{n}.col1" data-jqdata-format="{value} : "></span> <span data-jqdata="dataArray.{n}.col2"></span>
+			<ul >
+				<li data-jqdata="dataArray.{n}.col3.{n}">
+					<span data-jqdata="dataArray.{n}.col3.{n}.d1"></span>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	
+	</div>
+	<input type="button" onclick="console.log(JSON.stringify(objData.getData()));" value="Get Data (Check console)" />
+	<input type="button" onclick="objData.reset();" value="Reset Data" />
+</body>
+</html>
