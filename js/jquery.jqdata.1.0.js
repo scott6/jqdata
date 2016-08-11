@@ -4,16 +4,16 @@
 		var cfg = $.extend({
 			dataAttr:'jqdata',
             json: null,
-            url: null,
 			beforeBind :function(){},
-			afterBind:function(){}
+			afterBind:function(){},
+			dataChanged:function(){}
         }, options );
 		var _obj = this, _json = jQuery.extend(true, {}, cfg.json), _da = cfg.dataAttr, _trTraversing = false;
 		_obj.data('templates',{});
 		var _setValFunc = function(e){ 
 			var o = $(e.target), k = o.attr('data-'+_da), vv=o.val();
 			if (o.is('[data-'+_da+'-format]')) vv = vv.replace(new RegExp(o.attr('data-'+_da+'-format').replace('{value}','|'),"ig"),'');
-			_setVal(k,vv); _obj.rebind(); 
+			_setVal(k,vv); _process(_obj,k,vv);//_obj.rebind(); 
 		}
 		var _removeFmtFunc = function(e){ 
 			var o = $(e.target), f = o.attr('data-'+_da+'-format');
@@ -41,7 +41,7 @@
 					if ($(this).is('[data-'+_da+'-format]')) vv = $(this).attr('data-'+_da+'-format').replace('\\','').replace('{value}',vv);
 					if ($(this).is(':input[type="radio"], :input[type="checkbox"]')) {
 						if ($(this).is('[value="'+vv+'"]'))$(this).prop('checked',true);
-					} else if ($(this).is(':input')) $(this).val($(this).is(':focus')? value:vv);
+					} else if ($(this).is(':input') && !$(this).is(':focus')) $(this).val(vv);
 					else $(this).html(vv);
 				}
 				if ($(this).is('[data-'+_da+'-databind]')) {
@@ -70,14 +70,18 @@
 			}
 		}
 		var _setVal = function(sect,val){
-			var ar = sect.split('.'),tdata = cfg.json;
+			var ar = sect.split('.'),tdata = cfg.json,oldv='';
 			for (var x=0; x<ar.length; x++) {
 				if (typeof tdata[ar[x]] == 'undefined') {
 					tdata[ar[x]] = null; break;
 				} else if (typeof tdata[ar[x]] == 'object') {
 					tdata = tdata[ar[x]];
-				} else tdata[ar[x]] = val;
+				} else {
+					oldv = tdata[ar[x]];
+					tdata[ar[x]] = val;
+				}
 			}
+			cfg.dataChanged(_obj,sect,oldv,val);
 		}
 		var _cleanEmptyTemplate = function(){
 			$('[data-'+_da+'$=".{n}"]',_obj).remove();
