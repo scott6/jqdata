@@ -5,7 +5,7 @@ Automatic jQuery databinding from JSON to HTML Element or vice versa. This will 
 Link both jquery & jqdata library (I'll use jquery-1.11.0.min.js for example)
 ```html
     <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="js/jquery.jqdata.1.0.js"></script>
+    <script type="text/javascript" src="js/jquery.jqdata.1.0.min.js"></script>
 ```
 
 Prepare your JSON data (you can get this from $.get or $.post method for server request) :
