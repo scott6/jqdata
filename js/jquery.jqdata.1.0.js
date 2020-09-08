@@ -41,7 +41,9 @@
 					if ($(this).is('[data-'+_da+'-format]')) vv = $(this).attr('data-'+_da+'-format').replace('\\','').replace('{value}',vv);
 					if ($(this).is(':input[type="radio"], :input[type="checkbox"]')) {
 						if ($(this).is('[value="'+vv+'"]'))$(this).prop('checked',true);
-					} else if ($(this).is(':input') && !$(this).is(':focus')) $(this).val(vv);
+					} else if ($(this).is(':input')) {
+						if (!$(this).is(':focus')) $(this).val(vv);
+					}
 					else $(this).html(vv);
 				}
 				if ($(this).is('[data-'+_da+'-databind]')) {
